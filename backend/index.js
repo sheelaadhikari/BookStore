@@ -22,7 +22,20 @@ app.post("books", async (request, response) => {
                 message: "send all the required fields: title, author, publishYear",
             });
         }
-    } catch (error) {
+        const newBook = {
+            title: request.body.title,
+            author: request.body.author,
+            publishYear: request.body.publishYear,
+        };
+        const book = await Book.create(newBook);
+
+
+    }
+
+
+
+
+    catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
     }
@@ -36,6 +49,9 @@ mongoose
             console.log(`App is listening to the port:  ${PORT}`);
         });
     })
+
+
+
 
     .catch((error) => {
         console.log(error);
