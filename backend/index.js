@@ -28,6 +28,7 @@ app.post("books", async (request, response) => {
             publishYear: request.body.publishYear,
         };
         const book = await Book.create(newBook);
+        return response.status(201).send(book);
 
 
     }
