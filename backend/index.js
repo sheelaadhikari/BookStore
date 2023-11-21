@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import { Book } from "./models/bookModel.js";
 
 const app = express();
+// middle ware for parsing body request
+app.use(express.json());
 
 app.get("/", (request, response) => {
     console.log(request);
@@ -11,7 +13,7 @@ app.get("/", (request, response) => {
 });
 
 // route for saving a new book
-app.post("books", async (request, response) => {
+app.post("/books", async (request, response) => {
     try {
         if (
             !request.body.title ||
@@ -29,18 +31,13 @@ app.post("books", async (request, response) => {
         };
         const book = await Book.create(newBook);
         return response.status(201).send(book);
-
-
-    }
-
-
-
-
-    catch (error) {
+    } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
     }
 });
+
+// route for getting all books from database
 
 mongoose
     .connect(mongoDBURL)
@@ -50,9 +47,6 @@ mongoose
             console.log(`App is listening to the port:  ${PORT}`);
         });
     })
-
-
-
 
     .catch((error) => {
         console.log(error);
